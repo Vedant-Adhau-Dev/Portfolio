@@ -1,0 +1,121 @@
+.fullBox {
+    width: 100%;
+    font-family: 'poppins',sans-serif;
+    /* border: 2px solid red; */
+}
+
+::selection {
+    background-color: red;
+    color: white;
+}
+
+.mainBox {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 80vw;
+    height: 60vh;
+    margin-left: 10vw;
+    margin-top: 15vh;
+    /* border: 2px solid red; */
+    /* background-color: red; */
+}
+
+.leftBox {
+    width: 40vw;
+    height: 40vh;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    /* font-size: larger; */
+    position: relative;
+    /* border: 2px solid red; */
+}
+
+.rightBox {
+    /* background-image: url(../../src/assets/profile-pic.png); */
+    height: 100%;
+    width: 30vw;
+    /* border: 2px solid red; */
+}
+
+p {
+    text-align: justify;
+}
+
+.start h2 {
+    color: red;
+}
+
+.mid {
+    margin: 10px 0;
+}
+
+.me {
+    height: 50%;
+    border: none;
+    position: absolute;
+    margin-top: 2vh;
+    transition: all .3s ease;
+}
+
+.me:hover {
+    transform: scale(110%);
+}
+
+.end button {
+    padding: .5rem 1rem;
+    margin-right: 10px;
+    background-color: transparent;
+    color: white;
+    border: 2px solid red;
+    cursor: pointer;
+}
+
+.end button:hover {
+    background-color: red;
+    color: white;
+}
+
+@media (max-width: 1300px) {
+    .me {
+        height: 40%;
+    }
+}
+@media (max-width: 1200px) {
+    .me {
+        height: 35%;
+        margin-top: 7vh;
+    }
+}
+@media (max-width: 850px) {
+    .mainBox {
+        flex-direction: column;
+    }
+    .leftBox {
+        width: 80vw;
+        margin-bottom: 5vh;
+        font-size: small;
+    }
+    .rightBox {
+        margin-right: 12rem;
+    }
+}
+@media (max-width: 400px) {
+    .mainBox {
+        flex-direction: column;
+        margin-bottom: 10vh;
+    }
+    .leftBox {
+        width: 80vw;
+        margin-bottom: -2vh;
+        font-size: smaller;
+    }
+    .rightBox {
+        margin-right: 6rem;
+    }
+    .me {
+        height: 30%;
+    }
+}
