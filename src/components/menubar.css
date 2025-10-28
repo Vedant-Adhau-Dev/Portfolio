@@ -5,7 +5,7 @@
   background-color: rgb(0, 17, 43);
   position: absolute;
   z-index: 10;
-  top: 10vh;
+  top: 8vh;
   left: 0;
   display: none;
   flex-direction: column;

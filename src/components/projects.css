@@ -1,13 +1,14 @@
 .nebula-space {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 95vh;
   overflow: hidden;
   background: radial-gradient(circle at center, #000010 0%, #000015 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: "Orbitron", sans-serif;
+  margin-bottom: 20vh;
 }
 
 /* Background starfield */
@@ -145,6 +146,7 @@
   .nebula-core {
     height: 50px;
     width: 50px;
+    margin-bottom: 20vh;
   }
   .nebula-glow {
     height: 100px;
@@ -153,6 +155,7 @@
   .project-orb {
     width: 35px;
     height: 35px;
+    margin-bottom: 20vh;
     animation-duration: 14s;
   }
 
