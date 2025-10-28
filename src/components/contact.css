@@ -1,0 +1,102 @@
+.contact-container {
+  min-height: 95vh;
+  background: radial-gradient(ellipse at center, #010101 60%, #000 100%);
+  color: #00b7ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  /* padding: 2rem; */
+}
+
+.contact-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 10px #00b7ff;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  gap: 1rem;
+  background: rgba(0, 15, 25, 0.8);
+  padding: 2rem;
+  border-radius: 15px;
+  border: 2px solid #00b7ff;
+  box-shadow: 0 0 30px #00b7ff55;
+}
+
+label {
+  font-size: 0.9rem;
+  color: #aeeaff;
+}
+
+input, textarea {
+  background: #000;
+  border: 1px solid #00b7ff;
+  color: #00eaff;
+  padding: 10px;
+  border-radius: 8px;
+  outline: none;
+  font-family: 'Consolas', monospace;
+  transition: 0.2s;
+}
+
+input:focus, textarea:focus {
+  border-color: #00eaff;
+  box-shadow: 0 0 10px #00eaff55;
+}
+
+textarea {
+  resize: none;
+  height: 120px;
+}
+
+button {
+  background: #00b7ff;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-form:hover {
+  background: #00eaff;
+  box-shadow: 0 0 15px #00eaff;
+}
+
+.contact-status {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #aeeaff;
+  text-align: center;
+  white-space: pre-line;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.contact-status {
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+  border-right: 2px solid #00b7ff;
+  white-space: nowrap;
+  animation: typing 2s steps(40, end), blink 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  50% { border-color: transparent }
+}

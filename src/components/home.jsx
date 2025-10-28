@@ -1,7 +1,8 @@
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 import "./home.css"
-
 const home = () => {
+    const navigate = useNavigate();
     return (
         <div className="fullBox">
             <div className='mainBox'>
@@ -14,8 +15,8 @@ const home = () => {
                         <p>I’m a passionate and curious learner who loves exploring software development and creating meaningful digital solutions. I enjoy solving problems, learning new technologies, and turning ideas into functional, user-friendly experiences.</p>
                     </div>
                     <div className="end">
-                        <button>Hire Me</button>
-                        <button>Lets Talk</button>
+                        <button onClick={()=>{navigate("/contact")}}>Hire Me</button>
+                        <button onClick={()=>{navigate("/contact")}}>Lets Talk</button>
                     </div>
                 </div>
                 <div className="rightBox">
