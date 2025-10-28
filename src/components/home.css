@@ -16,7 +16,7 @@
     width: 80vw;
     height: 60vh;
     margin-left: 10vw;
-    margin-top: 15vh;
+    margin-top: 12vh;
     /* border: 2px solid red; */
     /* background-color: red; */
 }
@@ -71,6 +71,7 @@ p {
     color: white;
     border: 2px solid rgb(0, 102, 255);
     cursor: pointer;
+    margin-bottom: 10px;
 }
 
 .end button:hover {
@@ -100,6 +101,7 @@ p {
     }
     .rightBox {
         margin-right: 12rem;
+        margin-bottom: 2vh;
     }
 }
 @media (max-width: 400px) {

@@ -8,7 +8,7 @@ export default function Contact() {
 
   const sendEmail = async (e) => {
     e.preventDefault();
-    setStatus("> Connecting to Thewriter's neural uplink...");
+    setStatus("> Connecting to Thewriter's Email...");
 
     try {
       await emailjs.sendForm(
@@ -17,17 +17,17 @@ export default function Contact() {
         form.current,
         "bhw-ipFIKXhkOcmj7" // your public key
       );
-      setStatus("> Transmission sent successfully");
+      setStatus("> Sent Email Successfully");
       e.target.reset();
     } catch (error) {
       console.error(error);
-      setStatus("> Transmission failed Check console for details.");
+      setStatus("> Failed To Sent Email");
     }
   };
 
   return (
     <div className="contact-container">
-      <h2 className="contact-title">📡 Transmission Terminal</h2>
+      <h2 className="contact-title">Contact Form</h2>
       <form ref={form} onSubmit={sendEmail} className="contact-form">
         <label>Name</label>
         <input type="text" name="user_name" required />
@@ -38,7 +38,7 @@ export default function Contact() {
         <label>Message</label>
         <textarea name="message" required></textarea>
 
-        <button className="btn-form" type="submit">Transmit Signal</button>
+        <button className="btn-form" type="submit">Contact</button>
       </form>
 
       {status && <p className="contact-status">{status}</p>}

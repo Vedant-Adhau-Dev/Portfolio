@@ -19,7 +19,6 @@ function About() {
     const interval = setInterval(() => {
       if (i < commands.length) {
         setLines((prev) => [...prev, commands[i]]);
-        console.log(i)
         i++;
       } else {
         clearInterval(interval);

@@ -103,3 +103,27 @@
   color: #00eaff;
   text-shadow: 0 0 10px #00bfff;
 }
+
+@media (max-width: 800px) {
+  .terminal-window {
+    width: 250px;
+    font-size: small;
+  }
+  .about-horizontal {
+    flex-direction: column;
+    margin-top: 10vh;
+    width: 80vw;
+    font-size: smaller;
+    text-align: center;
+    border-top: 2px solid #00bfff;
+    /* border: none; */
+    padding: 20px 30px;
+  }
+  .avatar-circle {
+    display: none;
+  }
+  .data-line {
+    display: flex;
+    flex-direction: column;
+  }
+}

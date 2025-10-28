@@ -6,6 +6,7 @@ import About from './components/about'
 import Skillset from './components/skillset'
 import Projects from './components/projects'
 import Contact from './components/contact'
+import Menubar from './components/menubar'
 
 function App() {
   const router = createBrowserRouter([

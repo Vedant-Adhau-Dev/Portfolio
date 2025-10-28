@@ -140,3 +140,30 @@
   transform: scale(0.9);
   box-shadow: 0 0 40px 10px #00ffff;
 }
+
+@media (max-width: 800px) {
+  .nebula-core {
+    height: 50px;
+    width: 50px;
+  }
+  .nebula-glow {
+    height: 100px;
+    width: 100px;
+  }
+  .project-orb {
+    width: 35px;
+    height: 35px;
+    animation-duration: 14s;
+  }
+
+  @keyframes orbit {
+    0% { transform: rotate(calc(var(--i) * 90deg)) translateX(120px); }
+    100% { transform: rotate(calc(var(--i) * 90deg + 360deg)) translateX(120px); }
+  }
+  .orb-text {
+    bottom: -65px;
+    width: 130px;
+    font-size: 0.7rem;
+    padding: 6px;
+  }
+}

@@ -17,6 +17,9 @@ const home = () => {
                     <div className="end">
                         <button onClick={()=>{navigate("/contact")}}>Hire Me</button>
                         <button onClick={()=>{navigate("/contact")}}>Lets Talk</button>
+                        <a href="/assets/cv.pdf" download>
+                        <button src="/assets/cv.pdf" download>Download CV</button>
+                        </a>
                     </div>
                 </div>
                 <div className="rightBox">
