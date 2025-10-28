@@ -20,7 +20,7 @@ const home = () => {
                     </div>
                 </div>
                 <div className="rightBox">
-                    <img className='me' src="../../src/assets/profile-pic.png" alt="Vedant Adhau" />
+                    <img className='me' src="../../../public/assets/profile-pic.png" alt="Vedant Adhau" />
                 </div>
             </div>
         </div>
