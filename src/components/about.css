@@ -108,11 +108,11 @@
   .terminal-window {
     width: 250px;
     font-size: small;
-    margin-bottom: 15vh;
+    margin-top: 2vh;
   }
   .about-horizontal {
     flex-direction: column;
-    margin-top: 8vh;
+    margin-top: 3vh;
     width: 80vw;
     font-size: smaller;
     text-align: center;
