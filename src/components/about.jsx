@@ -48,19 +48,19 @@ function About() {
           <div className="data-side">
             <div className="data-line">
               <span className="label">ROLE</span>
-              <span className="value">Frontend Developer / Story Crafter</span>
+              <span className="value">Web Developer</span>
             </div>
             <div className="data-line">
               <span className="label">STACK</span>
-              <span className="value">HTML • CSS • JavaScript • React</span>
+              <span className="value">HTML • CSS • JavaScript • React • Node.js • Express.js • Tailwind</span>
             </div>
             <div className="data-line">
               <span className="label">ABILITY</span>
-              <span className="value">Turning caffeine into code</span>
+              <span className="value">Turning ideas into clean, creative, and functional code.</span>
             </div>
             <div className="data-line">
               <span className="label">MISSION</span>
-              <span className="value">Break comfort zones & build cool stuff</span>
+              <span className="value">Creating impactful and meaningful experiences through code.</span>
             </div>
             <div className="data-line">
               <span className="label">LOCATION</span>

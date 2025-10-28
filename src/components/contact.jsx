@@ -17,11 +17,11 @@ export default function Contact() {
         form.current,
         "bhw-ipFIKXhkOcmj7" // your public key
       );
-      setStatus("> Transmission sent successfully ✅");
+      setStatus("> Transmission sent successfully");
       e.target.reset();
     } catch (error) {
       console.error(error);
-      setStatus("> Transmission failed ❌ Check console for details.");
+      setStatus("> Transmission failed Check console for details.");
     }
   };
 

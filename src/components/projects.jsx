@@ -3,8 +3,8 @@ import "./Projects.css";
 
 export default function Projects() {
   const projects = [
-    { name: "Stand Out", desc: "A productivity & ranking system", link: "#" },
-    { name: "Portfolio", desc: "My Portfolio Website", link: "#" },
+    { name: "Stand Out", desc: "A productivity & ranking system", link: "https://github.com/Vedant-Adhau-Dev/Stand-Out" },
+    { name: "Portfolio", desc: "My Portfolio Website", link: "https://github.com/Vedant-Adhau-Dev/Portfolio" },
   ];
 
   const openProject = (url) => {
