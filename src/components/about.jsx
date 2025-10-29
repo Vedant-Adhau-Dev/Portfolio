@@ -5,16 +5,16 @@ export default function About() {
   const [output, setOutput] = useState([]);
   const [currentLine, setCurrentLine] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const terminalRef = useRef(null);
-  const inputRef = useRef(null); // hidden input
+  const terminalEndRef = useRef(null);
+  const inputRef = useRef(null);
 
   const commands = {
     role: ">_ Web Developer",
-    stack: ">_ HTML, CSS, JavaScript, React, Node.js, Express.js, Tailwind, Git, Github",
+    stack: ">_ HTML, CSS, JavaScript, React, Node.js, Express.js, Tailwind",
     ability: ">_ Turning ideas into clean, creative, and functional code.",
     mission: ">_ Creating impactful and meaningful experiences through code.",
     location: ">_ Somewhere between logic & imagination",
-    help: ">_ Available commands: role, stack, ability, mission, location, clear",
+    help: ">_ Commands: role, stack, ability, mission, location, clear",
   };
 
   const handleCommand = (cmd) => {
@@ -54,6 +54,7 @@ export default function About() {
 
   const handleKeyDown = (e) => {
     if (isTyping) return;
+
     if (e.key === "Enter") {
       e.preventDefault();
       setOutput((prev) => [...prev, { command: currentLine, response: "" }]);
@@ -63,20 +64,20 @@ export default function About() {
   };
 
   useEffect(() => {
-    terminalRef.current?.scrollIntoView({ behavior: "smooth" });
+    terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [output, currentLine]);
 
-  // Focus hidden input on tap
-  const focusInput = () => {
-    inputRef.current?.focus();
-  };
+  // Focus input when user taps anywhere
+  const focusInput = () => inputRef.current?.focus();
+
+  useEffect(() => {
+    focusInput();
+    window.addEventListener("touchstart", focusInput);
+    return () => window.removeEventListener("touchstart", focusInput);
+  }, []);
 
   return (
-    <div
-      className="terminal-real"
-      tabIndex="0"
-      onClick={focusInput}
-    >
+    <div className="terminal-real" onClick={focusInput}>
       <div className="terminal-header">About Me Terminal (Type "help")</div>
 
       <div className="terminal-output" onClick={focusInput}>
@@ -92,15 +93,21 @@ export default function About() {
           <span className="cursor">▌</span>
         </div>
 
+        {/* Hidden input for full mobile keyboard */}
         <input
           ref={inputRef}
-          className="hidden-input"
+          className="ghost-input"
           value={currentLine}
           onChange={(e) => setCurrentLine(e.target.value)}
           onKeyDown={handleKeyDown}
+          inputMode="text"
+          autoCapitalize="none"
+          autoCorrect="off"
+          autoComplete="off"
+          spellCheck="false"
         />
 
-        <div ref={terminalRef} />
+        <div ref={terminalEndRef} />
       </div>
     </div>
   );

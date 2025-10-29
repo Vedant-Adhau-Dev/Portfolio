@@ -134,10 +134,36 @@
     font-size: 0.85rem;
   }
 }
-.hidden-input {
+.ghost-input {
   position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  height: 0;
-  width: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2.5rem;
+  background: transparent;
+  border: none;
+  color: transparent;
+  caret-color: #00eaff; /* visible cursor */
+  outline: none;
+  z-index: 10;
+}
+
+/* Prevent content jump when mobile keyboard opens */
+@supports (-webkit-touch-callout: none) {
+  .terminal-real {
+    height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 600px) {
+  .terminal-real {
+    font-size: 0.9rem;
+    height: 90vh;
+  }
+
+  .ghost-input {
+    height: 3rem;
+  }
 }
