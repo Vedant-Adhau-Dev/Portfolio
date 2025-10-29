@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./about.css";
 
 export default function About() {
   const [output, setOutput] = useState([]);
   const [currentLine, setCurrentLine] = useState("");
   const inputRef = useRef(null);
-  const terminalRef = useRef(null);
+  const termRef = useRef(null);
   const endRef = useRef(null);
 
   const commands = {
@@ -30,80 +30,63 @@ export default function About() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!currentLine.trim()) return;
     handleCommand(currentLine);
     setCurrentLine("");
   };
 
-  // Scroll only when new output is added (not while typing)
+  // Scroll only when new lines appear
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
+    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [output]);
 
-  // Fix for mobile keyboard resizing issue
+  // Adjust visible height based on navbar height and keyboard
   useEffect(() => {
-    const fixViewport = () => {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    const term = termRef.current;
+    const updateHeight = () => {
+      const navbar = document.querySelector(".navbar"); // match your navbar class
+      const navHeight = navbar ? navbar.offsetHeight : 60;
+      const visibleHeight =
+        (window.visualViewport?.height || window.innerHeight) - navHeight;
+      term.style.height = `${visibleHeight}px`;
     };
-
-    fixViewport();
-    window.addEventListener("resize", fixViewport);
-    window.visualViewport?.addEventListener("resize", fixViewport);
-
+    updateHeight();
+    window.visualViewport?.addEventListener("resize", updateHeight);
+    window.addEventListener("resize", updateHeight);
     return () => {
-      window.removeEventListener("resize", fixViewport);
-      window.visualViewport?.removeEventListener("resize", fixViewport);
-    };
-  }, []);
-
-  // Keep keyboard stable on mobile without auto-scrolling
-  useEffect(() => {
-    const input = inputRef.current;
-
-    const handleFocus = () => {
-      // no auto-scroll here
-      document.body.style.overflow = "hidden";
-    };
-
-    const handleBlur = () => {
-      document.body.style.overflow = "auto";
-    };
-
-    input.addEventListener("focus", handleFocus);
-    input.addEventListener("blur", handleBlur);
-
-    return () => {
-      input.removeEventListener("focus", handleFocus);
-      input.removeEventListener("blur", handleBlur);
+      window.visualViewport?.removeEventListener("resize", updateHeight);
+      window.removeEventListener("resize", updateHeight);
     };
   }, []);
 
   return (
-    <div className="terminal-container" ref={terminalRef}>
-      <div className="terminal-header">About Me Terminal — Type "help"</div>
+    <div className="terminal-page">
+      <div className="terminal-container" ref={termRef}>
+        <div className="terminal-header">About Me Terminal — Type "help"</div>
 
-      <div className="terminal-body" onClick={() => inputRef.current.focus()}>
-        {output.map((line, i) => (
-          <div key={i} className="terminal-line">
-            <span className="prompt">$ {line.command}</span>
-            <div className="response">{line.response}</div>
-          </div>
-        ))}
+        <div className="terminal-body" onClick={() => inputRef.current.focus()}>
+          {output.map((line, i) => (
+            <div key={i} className="terminal-line">
+              <span className="prompt">$ {line.command}</span>
+              <div className="response">{line.response}</div>
+            </div>
+          ))}
 
-        <form className="terminal-line current" onSubmit={handleSubmit}>
-          <span className="prompt">$ </span>
-          <input
-            ref={inputRef}
-            className="terminal-input"
-            type="text"
-            value={currentLine}
-            onChange={(e) => setCurrentLine(e.target.value)}
-            autoFocus
-            autoComplete="off"
-            spellCheck="false"
-          />
-        </form>
-        <div ref={endRef} />
+          <form className="terminal-line current" onSubmit={handleSubmit}>
+            <span className="prompt">$ </span>
+            <input
+              ref={inputRef}
+              className="terminal-input"
+              type="text"
+              value={currentLine}
+              onChange={(e) => setCurrentLine(e.target.value)}
+              autoComplete="off"
+              spellCheck="false"
+              inputMode="text"
+            />
+          </form>
+          <div ref={endRef} />
+        </div>
       </div>
     </div>
   );
