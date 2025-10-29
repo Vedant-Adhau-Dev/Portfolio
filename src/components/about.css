@@ -1,4 +1,4 @@
-/* about.css - mobile safe terminal */
+
 
 :root {
   --accent: #00eaff;
@@ -6,7 +6,7 @@
 }
 
 
-/* wrapper centers on larger screens; on /* ========== GLOBAL LAYOUT ========== */
+
 .terminal-page {
   width: 100%;
   display: flex;
@@ -113,7 +113,7 @@
     font-size: 0.95rem;
   }
 }
-mobile it fills the viewport */
+/*mobile it fills the viewport */
 .terminal-wrapper {
   width: 100%;
   min-height: 100vh;
