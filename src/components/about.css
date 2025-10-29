@@ -1,111 +1,117 @@
 :root {
-  --vh: 100%; /* for mobile keyboard height fix */
+  --vh: 1vh;
+  --terminal-bg: radial-gradient(circle at top left, #01010a, #000010 60%);
+  --accent: #00eaff;
+  --accent-soft: #0099ff;
+  --text: #9eefff;
+  --font: "JetBrains Mono", "Courier New", monospace;
 }
 
-/* dynamic height correction for mobile */
-@media (max-width: 768px) {
-  :root {
-    --vh: 100vh;
-  }
-}
-
-/* main terminal container */
+/* 🌌 Terminal Base */
 .terminal-real {
-  position: fixed;
-  top: 10vh;
-  left: 0;
-  width: 100vw;
-  height: calc(var(--vh) - env(safe-area-inset-bottom));
-  background: radial-gradient(circle at top left, #000015, #000010 60%);
-  border: 2px solid #00eaff55;
-  box-shadow: 0 0 30px #00bfff33, inset 0 0 15px #00bfff33;
-  border-radius: 10px;
-  color: #9eefff;
-  font-family: "Courier New", monospace;
+  width: 95%;
+  height: 80vh;
+  max-width: 800px;
+  height: calc(var(--vh) * 100);
+  background: var(--terminal-bg);
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  color: var(--text);
+  font-family: var(--font);
+  margin: 4vh auto;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  z-index: 99;
+  box-shadow: 0 0 25px #00eaff40, inset 0 0 30px #00bfff22;
+  position: relative;
+  top: 5vh;
+  transition: all 0.3s ease;
 }
 
-/* header */
+/* ✨ Header Bar */
 .terminal-header {
-  background: linear-gradient(90deg, #001a33, #002244, #001a33);
-  color: #00eaff;
-  padding: 0.8rem;
-  border-bottom: 1px solid #00bfff66;
-  text-align: center;
+  background: linear-gradient(90deg, #002a44, #003355, #002a44);
+  color: var(--accent);
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid #00eaff55;
   font-weight: bold;
-  text-shadow: 0 0 8px #00eaff;
+  text-align: center;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 10px var(--accent-soft), 0 0 20px var(--accent);
   font-size: 1rem;
-  letter-spacing: 1px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px #00bfff33 inset;
 }
 
-/* main scrollable area */
+/* 🖥️ Output Section */
 .terminal-output {
   flex: 1;
-  padding: 0.8rem;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: #00eaff33 transparent;
+  padding: 1.5rem;
+  line-height: 1.5;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-.terminal-output::-webkit-scrollbar {
-  width: 6px;
-}
-
-.terminal-output::-webkit-scrollbar-thumb {
-  background: #00eaff33;
-  border-radius: 10px;
-}
-
-/* lines */
 .terminal-line {
   margin-bottom: 0.6rem;
-  line-height: 1.5rem;
-  word-break: break-word;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.25s ease-in-out;
 }
 
+/* 💬 Prompt + Response */
 .prompt {
-  color: #00eaff;
-  font-weight: bold;
-  text-shadow: 0 0 8px #00bfff;
-  margin-right: 0.5rem;
+  color: var(--accent);
+  font-weight: 600;
+  text-shadow: 0 0 6px var(--accent-soft);
+  margin-bottom: 2px;
 }
 
 .response {
-  color: #9eefff;
-  margin-left: 1.5rem;
   white-space: pre-wrap;
-  animation: fadeIn 0.3s ease-in-out;
+  color: var(--text);
+  text-shadow: 0 0 10px #00eaff22;
+  margin-left: 1.5rem;
+  letter-spacing: 0.2px;
 }
 
-/* input line */
+/* ⌨️ Current Input Line */
 .terminal-line.current {
   display: flex;
   align-items: center;
+  gap: 0.4rem;
 }
 
 .terminal-input {
   background: transparent;
-  border: none;
-  outline: none;
-  color: #9eefff;
+  border: 2px solid var(--accent);
+  color: var(--accent);
   font-family: inherit;
   font-size: 1rem;
+  outline: none;
   width: 100%;
-  caret-color: #00eaff;
+  caret-color: var(--accent);
+  animation: blink-cursor 1s steps(2, start) infinite;
 }
 
-.terminal-input::placeholder {
-  color: #007c9b;
+/* 🔲 Glowing Cursor Animation */
+@keyframes blink-cursor {
+  0%, 100% {
+    border-right: 2px solid transparent;
+  }
+  50% {
+    border-right: 2px solid var(--accent);
+  }
 }
 
+/* 🌟 Subtle Fade Animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(3px);
+    transform: translateY(2px);
   }
   to {
     opacity: 1;
@@ -113,25 +119,36 @@
   }
 }
 
-/* responsive tweaks */
+/* 🧭 Scrollbar */
+.terminal-output::-webkit-scrollbar {
+  width: 6px;
+}
+
+.terminal-output::-webkit-scrollbar-thumb {
+  background: var(--accent-soft);
+  border-radius: 10px;
+  box-shadow: 0 0 5px #00eaffaa;
+}
+
+/* 📱 Responsive Enhancements */
 @media (max-width: 600px) {
   .terminal-real {
-    border-radius: 0;
+    height: calc(var(--vh) * 60);
     font-size: 0.9rem;
-    height: 100%;
-    padding-bottom: 90px;
+    box-shadow: 0 0 15px #00bfff33, inset 0 0 20px #00bfff11;
   }
 
   .terminal-header {
-    font-size: 0.9rem;
-    padding: 0.6rem;
+    font-size: 0.85rem;
+    padding: 0.7rem;
+    letter-spacing: 1px;
   }
 
   .terminal-output {
-    padding: 0.6rem;
+    padding: 1rem;
   }
 
-  .terminal-input {
-    font-size: 0.95rem;
+  .response {
+    margin-left: 1rem;
   }
 }

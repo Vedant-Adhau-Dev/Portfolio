@@ -33,9 +33,8 @@ export default function About() {
   const typeResponse = (command, text) => {
     setIsTyping(true);
     let i = 0;
-    const speed = 25; // typing speed (ms)
+    const speed = 25;
 
-    // create new line for this command
     setOutput((prev) => [...prev, { command, response: "" }]);
 
     const interval = setInterval(() => {
@@ -47,7 +46,6 @@ export default function About() {
         }
         return newOutput;
       });
-
       i++;
       if (i === text.length) {
         clearInterval(interval);
@@ -67,17 +65,35 @@ export default function About() {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [output, currentLine]);
 
-  // Mobile viewport fix
+  // ✅ Mobile viewport handling (fixes slide-up issue)
   useEffect(() => {
     const updateVh = () => {
-      document.documentElement.style.setProperty("--vh", `${window.innerHeight}px`);
+      const vh = window.visualViewport
+        ? window.visualViewport.height * 0.01
+        : window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
     };
-    window.addEventListener("resize", updateVh);
+
     updateVh();
-    return () => window.removeEventListener("resize", updateVh);
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", updateVh);
+      window.visualViewport.addEventListener("scroll", updateVh);
+    } else {
+      window.addEventListener("resize", updateVh);
+    }
+
+    return () => {
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener("resize", updateVh);
+        window.visualViewport.removeEventListener("scroll", updateVh);
+      } else {
+        window.removeEventListener("resize", updateVh);
+      }
+    };
   }, []);
 
-  // Ensure visible when keyboard opens
+  // ✅ Focus scroll correction for mobile
   useEffect(() => {
     const handleFocus = () => {
       setTimeout(() => {
