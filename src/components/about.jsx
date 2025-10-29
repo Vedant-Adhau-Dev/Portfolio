@@ -6,7 +6,7 @@ export default function About() {
   const [currentLine, setCurrentLine] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const terminalEndRef = useRef(null);
-  const inputRef = useRef(null);
+  const textareaRef = useRef(null);
 
   const commands = {
     role: ">_ Web Developer",
@@ -52,10 +52,6 @@ export default function About() {
     }, speed);
   };
 
-  const handleInput = (e) => {
-    setCurrentLine(e.target.value);
-  };
-
   const handleKeyDown = (e) => {
     if (isTyping) return;
 
@@ -69,15 +65,24 @@ export default function About() {
     }
   };
 
+  const handleChange = (e) => {
+    setCurrentLine(e.target.value);
+  };
+
   useEffect(() => {
     terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [output]);
 
+  useEffect(() => {
+    // Always focus on mobile when user taps anywhere
+    const focusHandler = () => textareaRef.current.focus();
+    const terminal = document.querySelector(".terminal-real");
+    terminal.addEventListener("click", focusHandler);
+    return () => terminal.removeEventListener("click", focusHandler);
+  }, []);
+
   return (
-    <div
-      className="terminal-real"
-      onClick={() => inputRef.current.focus()}
-    >
+    <div className="terminal-real">
       <div className="terminal-header">About Me Terminal (Type "help")</div>
 
       <div className="terminal-output">
@@ -94,14 +99,15 @@ export default function About() {
           <span className="cursor">▌</span>
         </div>
 
-        {/* Hidden Input for Mobile */}
-        <input
-          ref={inputRef}
+        {/* Hidden Textarea for Mobile */}
+        <textarea
+          ref={textareaRef}
           className="hidden-input"
           value={currentLine}
-          onChange={handleInput}
+          onChange={handleChange}
           onKeyDown={handleKeyDown}
           autoFocus
+          spellCheck={false}
         />
 
         <div ref={terminalEndRef} />
