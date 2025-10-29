@@ -30,6 +30,18 @@ export default function About() {
     typeResponse(response);
   };
 
+  useEffect(() => {
+  const handleFocus = () => {
+    setTimeout(() => {
+      terminalEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    }, 300);
+  };
+  const textarea = textareaRef.current;
+  textarea.addEventListener("focus", handleFocus);
+
+  return () => textarea.removeEventListener("focus", handleFocus);
+}, []);
+
   const typeResponse = (text) => {
     setIsTyping(true);
     let i = 0;
@@ -51,6 +63,15 @@ export default function About() {
       }
     }, speed);
   };
+
+  useEffect(() => {
+  const updateVh = () => {
+    document.documentElement.style.setProperty("--vh", `${window.innerHeight * 0.01}px`);
+  };
+  window.addEventListener("resize", updateVh);
+  updateVh();
+  return () => window.removeEventListener("resize", updateVh);
+}, []);
 
   const handleKeyDown = (e) => {
     if (isTyping) return;
