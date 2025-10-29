@@ -23,7 +23,7 @@ export default function About() {
     projects: ">_ Stand Out, Portfolio.",
     tools: ">_ VS Code, Figma, Firebase, Git, Vite.",
     portfolio: ">_ https://vedantadhaudev.vercel.app",
-    github: ">_ https://github.com/VedantAdhaudev",
+    github: ">_ https://github.com/VedantAdhau-Dev",
     contact: ">_ Reach me at vedant.adhau.dev@gmail.com or on LinkedIn.com/in/vedant-adhau-dev",
     motto: ">_ Create. Break. Learn. Repeat.",
     coffee: ">_ Always.",
