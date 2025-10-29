@@ -14,7 +14,7 @@ export default function About() {
     ability: ">_ Turning ideas into clean, creative, and functional code.",
     mission: ">_ Creating impactful and meaningful experiences through code.",
     location: ">_ Somewhere between logic & imagination",
-    help: ">_ Commands: role, stack, ability, mission, location, clear",
+    help: ">_ Available commands: role, stack, ability, mission, location, clear",
   };
 
   const handleCommand = (cmd) => {
@@ -52,35 +52,35 @@ export default function About() {
     }, speed);
   };
 
+  const handleInput = (e) => {
+    setCurrentLine(e.target.value);
+  };
+
   const handleKeyDown = (e) => {
     if (isTyping) return;
 
     if (e.key === "Enter") {
       e.preventDefault();
-      setOutput((prev) => [...prev, { command: currentLine, response: "" }]);
-      handleCommand(currentLine);
+      const cmd = currentLine.trim();
+      setOutput((prev) => [...prev, { command: cmd, response: "" }]);
+      handleCommand(cmd);
       setCurrentLine("");
+      e.target.value = "";
     }
   };
 
   useEffect(() => {
     terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [output, currentLine]);
-
-  // Focus input when user taps anywhere
-  const focusInput = () => inputRef.current?.focus();
-
-  useEffect(() => {
-    focusInput();
-    window.addEventListener("touchstart", focusInput);
-    return () => window.removeEventListener("touchstart", focusInput);
-  }, []);
+  }, [output]);
 
   return (
-    <div className="terminal-real" onClick={focusInput}>
+    <div
+      className="terminal-real"
+      onClick={() => inputRef.current.focus()}
+    >
       <div className="terminal-header">About Me Terminal (Type "help")</div>
 
-      <div className="terminal-output" onClick={focusInput}>
+      <div className="terminal-output">
         {output.map((line, i) => (
           <div key={i} className="terminal-line">
             <span className="prompt">$ {line.command}</span>
@@ -89,22 +89,19 @@ export default function About() {
         ))}
 
         <div className="terminal-line current">
-          <span className="prompt">$ {currentLine}</span>
+          <span className="prompt">$ </span>
+          <span>{currentLine}</span>
           <span className="cursor">▌</span>
         </div>
 
-        {/* Hidden input for full mobile keyboard */}
+        {/* Hidden Input for Mobile */}
         <input
           ref={inputRef}
-          className="ghost-input"
+          className="hidden-input"
           value={currentLine}
-          onChange={(e) => setCurrentLine(e.target.value)}
+          onChange={handleInput}
           onKeyDown={handleKeyDown}
-          inputMode="text"
-          autoCapitalize="none"
-          autoCorrect="off"
-          autoComplete="off"
-          spellCheck="false"
+          autoFocus
         />
 
         <div ref={terminalEndRef} />
