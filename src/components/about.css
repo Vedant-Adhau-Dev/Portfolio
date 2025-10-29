@@ -192,3 +192,22 @@
   .terminal-body { padding: 10px; }
   .terminal-input { font-size: 15px; border: 2px solid #00eaff; }
 }
+
+/* .response.typing::after {
+content: "";
+display: inline-block;
+width: 8px;
+height: 1em;
+margin-left: 6px;
+vertical-align: middle;
+background: transparent;
+box-shadow: inset -2px 0 0 0 currentColor;
+animation: blink 1s steps(2, start) infinite;
+}
+
+
+@keyframes blink {
+0% { opacity: 1 }
+50% { opacity: 0 }
+100% { opacity: 1 }
+} */
