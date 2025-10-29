@@ -1,75 +1,107 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./about.css";
 
-function About() {
-  const [showTerminal, setShowTerminal] = useState(true);
-  const [lines, setLines] = useState([]);
-  const commands = [
-    "> Initializing human.exe...",
-    "> Loading passions...",
-    "> Installing creativity.dll",
-    "> Updating me.env",
-    "> Rendering Profile.card"
-  ];
+export default function About() {
+  const [output, setOutput] = useState([]);
+  const [currentLine, setCurrentLine] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const terminalRef = useRef(null);
+  const inputRef = useRef(null); // hidden input
 
+  const commands = {
+    role: ">_ Web Developer",
+    stack: ">_ HTML, CSS, JavaScript, React, Node.js, Express.js, Tailwind, Git, Github",
+    ability: ">_ Turning ideas into clean, creative, and functional code.",
+    mission: ">_ Creating impactful and meaningful experiences through code.",
+    location: ">_ Somewhere between logic & imagination",
+    help: ">_ Available commands: role, stack, ability, mission, location, clear",
+  };
 
+  const handleCommand = (cmd) => {
+    const command = cmd.trim().toLowerCase();
+    if (!command) return;
 
-  useEffect(() => {
+    if (command === "clear") {
+      setOutput([]);
+      return;
+    }
+
+    const response = commands[command] || `Command not found: ${command}`;
+    typeResponse(response);
+  };
+
+  const typeResponse = (text) => {
+    setIsTyping(true);
     let i = 0;
+    const speed = 25;
+    let typed = "";
+
     const interval = setInterval(() => {
-      if (i < commands.length) {
-        setLines((prev) => [...prev, commands[i]]);
+      if (i < text.length) {
+        typed += text[i];
+        setOutput((prev) => {
+          const newOut = [...prev];
+          newOut[newOut.length - 1].response = typed;
+          return newOut;
+        });
         i++;
       } else {
         clearInterval(interval);
-        setTimeout(() => setShowTerminal(false), 100); // wait a bit then hide
+        setIsTyping(false);
       }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+    }, speed);
+  };
+
+  const handleKeyDown = (e) => {
+    if (isTyping) return;
+    if (e.key === "Enter") {
+      e.preventDefault();
+      setOutput((prev) => [...prev, { command: currentLine, response: "" }]);
+      handleCommand(currentLine);
+      setCurrentLine("");
+    }
+  };
+
+  useEffect(() => {
+    terminalRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [output, currentLine]);
+
+  // Focus hidden input on tap
+  const focusInput = () => {
+    inputRef.current?.focus();
+  };
 
   return (
-    <div className="about-container">
-      {showTerminal ? (
-        <div className="terminal-window">
-          {lines.map((line, index) => (
-            <p key={index} className="terminal-line">{line}</p>
-          ))}
+    <div
+      className="terminal-real"
+      tabIndex="0"
+      onClick={focusInput}
+    >
+      <div className="terminal-header">About Me Terminal (Type "help")</div>
+
+      <div className="terminal-output" onClick={focusInput}>
+        {output.map((line, i) => (
+          <div key={i} className="terminal-line">
+            <span className="prompt">$ {line.command}</span>
+            {line.response && <div className="response">{line.response}</div>}
+          </div>
+        ))}
+
+        <div className="terminal-line current">
+          <span className="prompt">$ {currentLine}</span>
           <span className="cursor">▌</span>
         </div>
-      ) : (
-        <div className="about-horizontal">
-          <div className="avatar-side">
-            <div className="avatar-circle">TW</div>
-            <h2 className="glow-name">THEWRITER.EXE</h2>
-          </div>
 
-          <div className="data-side">
-            <div className="data-line">
-              <span className="label">ROLE</span>
-              <span className="value">Web Developer</span>
-            </div>
-            <div className="data-line">
-              <span className="label">STACK</span>
-              <span className="value">HTML • CSS • JavaScript • React • Node.js • Express.js • Tailwind</span>
-            </div>
-            <div className="data-line">
-              <span className="label">ABILITY</span>
-              <span className="value">Turning ideas into clean, creative, and functional code.</span>
-            </div>
-            <div className="data-line">
-              <span className="label">MISSION</span>
-              <span className="value">Creating impactful and meaningful experiences through code.</span>
-            </div>
-            <div className="data-line">
-              <span className="label">LOCATION</span>
-              <span className="value">Somewhere between logic & imagination</span>
-            </div>
-          </div>
-        </div>
-      )}
+        <input
+          ref={inputRef}
+          className="hidden-input"
+          value={currentLine}
+          onChange={(e) => setCurrentLine(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+
+        <div ref={terminalRef} />
+      </div>
     </div>
   );
 }
-
-export default About;

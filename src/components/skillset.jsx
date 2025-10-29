@@ -17,10 +17,20 @@ export default function Skillset() {
       <div className="slider">
         <div className="slide-track">
           {
-          doubledSkills.map((skill, i) => (
-            <div className="slide" key={i}>
-              <span>{skill}</span>
-            </div>
+            doubledSkills.map((skill, i) => (
+              <div className="slide" key={i}>
+                <span>{skill}</span>
+              </div>
+            ))}
+        </div>
+      </div>
+      <div className="slider">
+        <div className="revslide-track">
+          {
+            doubledSkills.map((skill, i) => (
+          <div className="slide" key={i}>
+            <span>{skill}</span>
+          </div>
           ))}
         </div>
       </div>
