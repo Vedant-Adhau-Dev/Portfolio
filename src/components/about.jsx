@@ -4,8 +4,8 @@ import "./about.css";
 export default function About() {
   const [output, setOutput] = useState([]);
   const [currentLine, setCurrentLine] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
   const inputRef = useRef(null);
+  const terminalRef = useRef(null);
   const endRef = useRef(null);
 
   const commands = {
@@ -20,96 +20,69 @@ export default function About() {
   const handleCommand = (cmd) => {
     const command = cmd.trim().toLowerCase();
     if (!command) return;
-
     if (command === "clear") {
       setOutput([]);
       return;
     }
-
     const response = commands[command] || `Command not found: ${command}`;
-    typeResponse(command, response);
-  };
-
-  const typeResponse = (command, text) => {
-    setIsTyping(true);
-    let i = 0;
-    const speed = 25;
-
-    setOutput((prev) => [...prev, { command, response: "" }]);
-
-    const interval = setInterval(() => {
-      setOutput((prev) => {
-        const newOutput = [...prev];
-        const lastLine = newOutput[newOutput.length - 1];
-        if (i < text.length) {
-          lastLine.response = text.slice(0, i + 1);
-        }
-        return newOutput;
-      });
-      i++;
-      if (i === text.length) {
-        clearInterval(interval);
-        setIsTyping(false);
-      }
-    }, speed);
+    setOutput((prev) => [...prev, { command, response }]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isTyping || !currentLine.trim()) return;
     handleCommand(currentLine);
     setCurrentLine("");
   };
 
+  // Scroll only when new output is added (not while typing)
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [output, currentLine]);
+  }, [output]);
 
-  // ✅ Mobile viewport handling (fixes slide-up issue)
+  // Fix for mobile keyboard resizing issue
   useEffect(() => {
-    const updateVh = () => {
-      const vh = window.visualViewport
-        ? window.visualViewport.height * 0.01
-        : window.innerHeight * 0.01;
+    const fixViewport = () => {
+      const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty("--vh", `${vh}px`);
     };
 
-    updateVh();
-
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener("resize", updateVh);
-      window.visualViewport.addEventListener("scroll", updateVh);
-    } else {
-      window.addEventListener("resize", updateVh);
-    }
+    fixViewport();
+    window.addEventListener("resize", fixViewport);
+    window.visualViewport?.addEventListener("resize", fixViewport);
 
     return () => {
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener("resize", updateVh);
-        window.visualViewport.removeEventListener("scroll", updateVh);
-      } else {
-        window.removeEventListener("resize", updateVh);
-      }
+      window.removeEventListener("resize", fixViewport);
+      window.visualViewport?.removeEventListener("resize", fixViewport);
     };
   }, []);
 
-  // ✅ Focus scroll correction for mobile
+  // Keep keyboard stable on mobile without auto-scrolling
   useEffect(() => {
-    const handleFocus = () => {
-      setTimeout(() => {
-        endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-      }, 250);
-    };
     const input = inputRef.current;
+
+    const handleFocus = () => {
+      // no auto-scroll here
+      document.body.style.overflow = "hidden";
+    };
+
+    const handleBlur = () => {
+      document.body.style.overflow = "auto";
+    };
+
     input.addEventListener("focus", handleFocus);
-    return () => input.removeEventListener("focus", handleFocus);
+    input.addEventListener("blur", handleBlur);
+
+    return () => {
+      input.removeEventListener("focus", handleFocus);
+      input.removeEventListener("blur", handleBlur);
+    };
   }, []);
 
   return (
-    <div className="terminal-real">
-      <div className="terminal-header">About Me Terminal (Type "help")</div>
+    <div className="terminal-container" ref={terminalRef}>
+      <div className="terminal-header">About Me Terminal — Type "help"</div>
 
-      <div className="terminal-output" onClick={() => inputRef.current.focus()}>
+      <div className="terminal-body" onClick={() => inputRef.current.focus()}>
         {output.map((line, i) => (
           <div key={i} className="terminal-line">
             <span className="prompt">$ {line.command}</span>
@@ -128,10 +101,8 @@ export default function About() {
             autoFocus
             autoComplete="off"
             spellCheck="false"
-            disabled={isTyping}
           />
         </form>
-
         <div ref={endRef} />
       </div>
     </div>
